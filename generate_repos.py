@@ -24,7 +24,9 @@ OWNER = os.environ.get("GH_USER", "HariKarthick22")
 MODEL_NAME = "karthick_ar"
 W = 1180
 PAD = 44
-MAX_AGENTS = 6
+# Must exceed the public repo count, or the lowest-ranked project is silently
+# dropped from a section whose prose promises every repo appears.
+MAX_AGENTS = 12
 
 # Role assignment, most specific first. A repo carrying both `nlp` and
 # `machine-learning` is a perception agent, not a generic inference one.

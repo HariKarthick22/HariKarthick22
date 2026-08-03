@@ -33,7 +33,6 @@ IDENTITY = {
         ("stack.ml", "PyTorch · TensorFlow · scikit-learn"),
         ("stack.nlp", "Transformers · BioBERT · DistilBERT"),
         ("stack.web", "FastAPI · React · PostgreSQL"),
-        ("agents", "7 active"),
         ("status", "student · shipping"),
     ],
 }
@@ -113,6 +112,32 @@ def height_field(img: Image.Image, cols: int = COLS, rows: int = ROWS) -> list:
     if hi - lo < 1e-6:
         return [[0.0] * cols for _ in range(rows)]
     a = (a - lo) / (hi - lo)
+
+    # Studio portraits are a subject on a light backdrop. Mapping raw brightness
+    # to height would raise the empty backdrop and sink the face. Inverting
+    # globally overcorrects — it turns dark hair and clothing into the bright
+    # peaks. Instead, detect the backdrop and suppress it to zero while keeping
+    # natural luminance inside the subject, so lit skin stays raised and hair
+    # reads as recessed. The floor keeps dark regions above the cull threshold
+    # so the silhouette does not lose its hair.
+    border = np.concatenate([a[0], a[-1], a[:, 0], a[:, -1]])
+    backdrop = float(np.median(border))
+    centre = a[rows // 4: 3 * rows // 4, cols // 4: 3 * cols // 4]
+
+    if backdrop > float(centre.mean()):
+        subject = a < (backdrop - 0.10)
+        if subject.sum() > 0.05 * a.size:
+            vals = a[subject]
+            v_lo, v_hi = float(vals.min()), float(vals.max())
+            out = np.zeros_like(a)
+            if v_hi - v_lo > 1e-6:
+                out[subject] = 0.20 + 0.80 * (a[subject] - v_lo) / (v_hi - v_lo)
+            else:
+                out[subject] = 1.0
+            a = out
+        else:
+            a = 1.0 - a       # no clean silhouette; fall back to a plain flip
+
     a = np.power(a, 0.82)     # lift midtones so the face reads as relief
     return a.tolist()
 
@@ -270,8 +295,11 @@ def _panel(field: list, theme: str) -> str:
         f'<line x1="{px}" y1="{y - 12:.0f}" x2="1140" y2="{y - 12:.0f}"'
         f' stroke="{t["border"]}" stroke-width="1"/>'
     )
+    # Report the field actually sampled, not the module default — the code and
+    # relief styles use different grid resolutions.
     out.append(_mono_row(
-        f"tensor(shape=({ROWS}, {COLS}), dtype=float32)", px, y, 9.0, t["muted"]))
+        f"tensor(shape=({len(field)}, {len(field[0])}), dtype=float32)",
+        px, y, 9.0, t["muted"]))
     y += 16.0
 
     # A quiet float grid sampled from the same field the surface is built from.
@@ -327,7 +355,7 @@ def build_svg(field: list, theme: str, style: str = "relief",
         f'<rect width="{W}" height="{H}" rx="14" fill="{t["page"]}"/>'
         f'<rect x="0.5" y="0.5" width="{W - 1}" height="{H - 1}" rx="13.5"'
         f' fill="none" stroke="{t["border"]}" stroke-width="1"/>'
-        f"{header}{surface}{_panel(field, theme)}"
+        f"{header}{surface}{_panel(code_field if style == 'code' and code_field else field, theme)}"
         f"</svg>"
     )
 

@@ -13,7 +13,7 @@
 <br/>
 
 <a href="https://github.com/HariKarthick22">
-  <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=600&size=21&duration=2800&pause=800&color=F98E08&center=true&vCenter=true&width=780&lines=Software+%2B+AI%2FML+Developer;I+train+models+and+ship+the+product+around+them;NLP+%C2%B7+Predictive+Modelling+%C2%B7+Multi-Agent+Systems;Student+%E2%80%94+always+shipping" alt="Typing SVG" />
+  <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=600&size=21&duration=2800&pause=800&repeat=false&color=F98E08&center=true&vCenter=true&width=780&lines=Software+%2B+AI%2FML+Developer;I+train+models+and+ship+the+product+around+them;NLP+%C2%B7+Predictive+Modelling+%C2%B7+Multi-Agent+Systems;Student+%E2%80%94+always+shipping" alt="Software + AI/ML Developer. I train models and ship the product around them. NLP, predictive modelling, multi-agent systems. Student, always shipping." />
 </a>
 
 <br/>
@@ -26,9 +26,7 @@
 
 ---
 
-### <img src="https://media.giphy.com/media/WUlplcMpOCEmTGBtBW/giphy.gif" width="28"> &nbsp;About me
-
-<img align="right" width="330" alt="coding" src="https://user-images.githubusercontent.com/74038190/229223263-cf2e4b07-2615-4f87-9c38-e37600f8381a.gif" />
+### 👋 &nbsp;About me
 
 ```python
 class Karthick(nn.Module):
@@ -50,8 +48,6 @@ class Karthick(nn.Module):
 - 📫 &nbsp;Reach me at **karthickramachandran22@gmail.com**
 - ⚡ &nbsp;The banner above is my face rendered as an **activation heightmap** in `inferno` — brightness is elevation, and every glyph is real PyTorch source.
 
-<br clear="right"/>
-
 ---
 
 ### 🛠️ &nbsp;Tech stack
@@ -60,32 +56,48 @@ class Karthick(nn.Module):
 
 **AI / ML**
 
-[![AI-ML](https://skillicons.dev/icons?i=py,pytorch,tensorflow,sklearn,opencv,anaconda&theme=dark)](https://skillicons.dev)
+<picture>
+  <source media="(prefers-color-scheme: dark)"  srcset="https://skillicons.dev/icons?i=py,pytorch,tensorflow,sklearn,opencv,anaconda&theme=dark">
+  <source media="(prefers-color-scheme: light)" srcset="https://skillicons.dev/icons?i=py,pytorch,tensorflow,sklearn,opencv,anaconda&theme=light">
+  <img alt="Python, PyTorch, TensorFlow, scikit-learn, OpenCV, Anaconda" src="https://skillicons.dev/icons?i=py,pytorch,tensorflow,sklearn,opencv,anaconda&theme=dark">
+</picture>
 
 **Backend & Data**
 
-[![Backend](https://skillicons.dev/icons?i=fastapi,flask,nodejs,express,postgres,mysql,mongodb&theme=dark)](https://skillicons.dev)
+<picture>
+  <source media="(prefers-color-scheme: dark)"  srcset="https://skillicons.dev/icons?i=fastapi,flask,nodejs,express,postgres,mysql,mongodb&theme=dark">
+  <source media="(prefers-color-scheme: light)" srcset="https://skillicons.dev/icons?i=fastapi,flask,nodejs,express,postgres,mysql,mongodb&theme=light">
+  <img alt="FastAPI, Flask, Node.js, Express, PostgreSQL, MySQL, MongoDB" src="https://skillicons.dev/icons?i=fastapi,flask,nodejs,express,postgres,mysql,mongodb&theme=dark">
+</picture>
 
 **Frontend**
 
-[![Frontend](https://skillicons.dev/icons?i=ts,js,react,vite,tailwind,html,css&theme=dark)](https://skillicons.dev)
+<picture>
+  <source media="(prefers-color-scheme: dark)"  srcset="https://skillicons.dev/icons?i=ts,js,react,vite,tailwind,html,css&theme=dark">
+  <source media="(prefers-color-scheme: light)" srcset="https://skillicons.dev/icons?i=ts,js,react,vite,tailwind,html,css&theme=light">
+  <img alt="TypeScript, JavaScript, React, Vite, Tailwind CSS, HTML, CSS" src="https://skillicons.dev/icons?i=ts,js,react,vite,tailwind,html,css&theme=dark">
+</picture>
 
 **Tools & Platforms**
 
-[![Tools](https://skillicons.dev/icons?i=git,github,docker,vscode,linux,firebase,vercel&theme=dark)](https://skillicons.dev)
+<picture>
+  <source media="(prefers-color-scheme: dark)"  srcset="https://skillicons.dev/icons?i=git,github,docker,vscode,linux,firebase,vercel&theme=dark">
+  <source media="(prefers-color-scheme: light)" srcset="https://skillicons.dev/icons?i=git,github,docker,vscode,linux,firebase,vercel&theme=light">
+  <img alt="Git, GitHub, Docker, VS Code, Linux, Firebase, Vercel" src="https://skillicons.dev/icons?i=git,github,docker,vscode,linux,firebase,vercel&theme=dark">
+</picture>
 
 </div>
 
 <div align="center">
 
-<img src="https://img.shields.io/badge/Transformers-F98E08?style=flat-square&logo=huggingface&logoColor=0B0A09" />
-<img src="https://img.shields.io/badge/BioBERT-BB3754?style=flat-square&logoColor=white" />
-<img src="https://img.shields.io/badge/DistilBERT-BB3754?style=flat-square&logoColor=white" />
-<img src="https://img.shields.io/badge/Streamlit-E45A31?style=flat-square&logo=streamlit&logoColor=white" />
-<img src="https://img.shields.io/badge/Pandas-570F6D?style=flat-square&logo=pandas&logoColor=white" />
-<img src="https://img.shields.io/badge/NumPy-570F6D?style=flat-square&logo=numpy&logoColor=white" />
-<img src="https://img.shields.io/badge/Selenium-E45A31?style=flat-square&logo=selenium&logoColor=white" />
-<img src="https://img.shields.io/badge/Drizzle_ORM-F98E08?style=flat-square&logoColor=0B0A09" />
+<img alt="Transformers" src="https://img.shields.io/badge/Transformers-F98E08?style=flat-square&logo=huggingface&logoColor=0B0A09" />
+<img alt="BioBERT" src="https://img.shields.io/badge/BioBERT-BB3754?style=flat-square&logoColor=white" />
+<img alt="DistilBERT" src="https://img.shields.io/badge/DistilBERT-BB3754?style=flat-square&logoColor=white" />
+<img alt="Streamlit" src="https://img.shields.io/badge/Streamlit-E45A31?style=flat-square&logo=streamlit&logoColor=white" />
+<img alt="Pandas" src="https://img.shields.io/badge/Pandas-570F6D?style=flat-square&logo=pandas&logoColor=white" />
+<img alt="NumPy" src="https://img.shields.io/badge/NumPy-570F6D?style=flat-square&logo=numpy&logoColor=white" />
+<img alt="Selenium" src="https://img.shields.io/badge/Selenium-E45A31?style=flat-square&logo=selenium&logoColor=white" />
+<img alt="Drizzle ORM" src="https://img.shields.io/badge/Drizzle_ORM-F98E08?style=flat-square&logoColor=0B0A09" />
 
 </div>
 
@@ -121,11 +133,12 @@ class Karthick(nn.Module):
 
 <br/><br/>
 
-<img width="99%" alt="Streak" src="https://streak-stats.demolab.com?user=HariKarthick22&hide_border=true&background=0B0A09&stroke=2A241E&ring=F98E08&fire=BB3754&currStreakLabel=F98E08&sideLabels=9C9186&currStreakNum=F5EFE7&sideNums=F5EFE7&dates=6E655C&titleColor=F98E08" />
 
-<br/><br/>
-
-<img width="99%" alt="Activity graph" src="https://github-readme-activity-graph.vercel.app/graph?username=HariKarthick22&bg_color=0B0A09&color=F5EFE7&line=F98E08&point=BB3754&area_color=570F6D&area=true&hide_border=true" />
+<picture>
+  <source media="(prefers-color-scheme: dark)"  srcset="https://github-readme-activity-graph.vercel.app/graph?username=HariKarthick22&bg_color=0B0A09&color=F5EFE7&line=F98E08&point=BB3754&area_color=570F6D&area=true&hide_border=true">
+  <source media="(prefers-color-scheme: light)" srcset="https://github-readme-activity-graph.vercel.app/graph?username=HariKarthick22&bg_color=FAF7F2&color=16130F&line=C2410C&point=9D1C3F&area_color=D4A27F&area=true&hide_border=true">
+  <img width="99%" alt="Contribution activity over the last year" src="https://github-readme-activity-graph.vercel.app/graph?username=HariKarthick22&bg_color=0B0A09&color=F5EFE7&line=F98E08&point=BB3754&area_color=570F6D&area=true&hide_border=true">
+</picture>
 
 </div>
 
@@ -160,7 +173,7 @@ class Karthick(nn.Module):
 </a>
 &nbsp;
 <a href="https://github.com/HariKarthick22">
-  <img src="https://img.shields.io/badge/GitHub-0B0A09?style=for-the-badge&logo=github&logoColor=F98E08" alt="GitHub" />
+  <img src="https://img.shields.io/badge/GitHub-2A241E?style=for-the-badge&logo=github&logoColor=F98E08" alt="GitHub" />
 </a>
 &nbsp;
 <a href="https://huggingface.co/Harikarthick">
@@ -168,10 +181,6 @@ class Karthick(nn.Module):
 </a>
 
 <br/><br/>
-
-<img src="https://media.giphy.com/media/dWesBcTLavkZuG35MI/giphy.gif" width="180" alt="thanks" />
-
-<br/>
 
 <i>Thanks for scrolling. Star something if it was useful.</i>
 
@@ -212,9 +221,11 @@ vertical displacement still carries the depth.
 | `generate_banner.py` | Activation field → animated surface |
 | `generate_repos.py` | GitHub API → agent roster |
 
-**Why paths instead of text:** GitHub proxies README SVGs through camo, so
-webfonts never load. Any `<text>` with a custom `font-family` silently falls back
-to whatever the visitor has installed. Display type is converted to geometry at
+**Why paths instead of text:** GitHub serves README SVGs with
+`Content-Security-Policy: default-src 'none'; sandbox`, and browsers block external
+resource loading inside `<img>`-referenced SVG — so webfonts never load and scripts
+never run. Any `<text>` with a custom `font-family` silently falls back to whatever
+the visitor happens to have installed. Display type is converted to geometry at
 build time; monospace runs are pinned with `textLength` so the generic fallback
 still lands on the same pixels.
 
