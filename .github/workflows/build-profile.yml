@@ -10,16 +10,16 @@ on:
 permissions:
   contents: write
 
-# Two runs pushing to main at once lose the race and fail. Queue them instead of
-# cancelling — a cancelled run leaves the assets stale until the next schedule.
+# Two runs pushing to main at once lose the race. Queue rather than cancel — a
+# cancelled run would leave the assets stale until the next schedule.
 concurrency:
   group: build-profile
   cancel-in-progress: false
 
 jobs:
   # --------------------------------------------------------------------
-  # Agent roster — repos as a model.summary() table.
-  # Picks up new repos automatically; nothing here is hardcoded.
+  # Agent roster + stats card. Both are regenerated from the live API, so
+  # new repos appear here on their own.
   # --------------------------------------------------------------------
   roster:
     runs-on: ubuntu-latest
@@ -36,38 +36,49 @@ jobs:
       - name: Verify generators still pass their tests
         run: python -m pytest tests/ -q
 
-      - name: Generate agent roster
+      - name: Generate assets, commit, and push
         env:
           GH_USER: ${{ github.repository_owner }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: python generate_repos.py
-
-      - name: Generate stats card
-        env:
-          GH_USER: ${{ github.repository_owner }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: python generate_stats.py
-
-      - name: Commit if changed
         run: |
+          set -euo pipefail
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add repos-dark.svg repos-light.svg stats-dark.svg stats-light.svg
-          git diff --staged --quiet && echo "no changes" && exit 0
-          git commit -m "chore: refresh roster and stats"
-          # Retry against a moving remote rather than failing the whole run.
-          for i in 1 2 3; do
-            git pull --rebase --autostash origin main && git push && exit 0
-            echo "push attempt $i failed, retrying"
+
+          # These files are generated, never hand-edited, so a conflict with the
+          # remote has exactly one correct resolution: discard local, take the
+          # newest main, and regenerate on top of it. Rebasing generated binaries
+          # produces conflicts that cannot be resolved automatically.
+          for attempt in 1 2 3; do
+            git fetch --quiet origin main
+            git reset --quiet --hard origin/main
+
+            python generate_repos.py
+            python generate_stats.py
+
+            git add repos-dark.svg repos-light.svg stats-dark.svg stats-light.svg
+            if git diff --staged --quiet; then
+              echo "assets unchanged — nothing to push"
+              exit 0
+            fi
+
+            git commit --quiet -m "chore: refresh roster and stats"
+            if git push --quiet; then
+              echo "pushed on attempt $attempt"
+              exit 0
+            fi
+
+            echo "remote moved during attempt $attempt, regenerating"
             sleep 5
           done
+
           echo "could not push after 3 attempts" >&2
           exit 1
 
   # --------------------------------------------------------------------
   # Contribution snake — travels the calendar eating contribution dots.
-  # Recoloured to the inferno ramp so it matches the banner.
-  # Output goes to the `output` branch, not main.
+  # Recoloured to the inferno ramp. Pushes to `output`, not main, so it
+  # never races the roster job.
   # --------------------------------------------------------------------
   snake:
     runs-on: ubuntu-latest
