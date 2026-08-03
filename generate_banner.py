@@ -183,6 +183,66 @@ def _surface(field: list, theme: str) -> str:
     return "".join(parts)
 
 
+# Code-glyph surface -------------------------------------------------------
+# The portrait is drawn in the characters of an actual model definition. Each
+# glyph sits at its cell's relief position, lifted by activation, coloured by
+# inferno. Glyphs are absolutely positioned and centred, so the generic
+# monospace fallback cannot shift the image.
+CODE_SOURCE = (
+    "class ActivationSurface(nn.Module):"
+    "def __init__(self,d=512):super().__init__();"
+    "self.enc=nn.Conv2d(3,d,3,padding=1);self.norm=nn.LayerNorm(d);"
+    "self.attn=nn.MultiheadAttention(d,8);self.fc=nn.Linear(d,1)"
+    "def forward(self,x):h=F.gelu(self.enc(x));h=self.norm(h.flatten(2).mT);"
+    "a,_=self.attn(h,h,h);return torch.sigmoid(self.fc(a.mean(1)))"
+)
+
+C_COLS, C_ROWS = 88, 78
+C_CELL_W, C_ROW_D = 5.6, 5.0
+C_MAX_H = 26.0
+C_X0, C_Y0 = 64.0, 96.0
+C_FONT = 8.2
+
+
+def _surface_code(field: list, theme: str) -> str:
+    """Portrait rendered as source-code glyphs in relief."""
+    rows, cols = len(field), len(field[0])
+    bands: dict = {}
+    i = 0
+
+    for r in range(rows):
+        for c in range(cols):
+            v = field[r][c]
+            ch = CODE_SOURCE[i % len(CODE_SOURCE)]
+            i += 1
+            if v < MIN_ACTIVATION or ch == " ":
+                continue
+            x = C_X0 + c * C_CELL_W
+            y = C_Y0 + r * C_ROW_D - v * C_MAX_H
+            esc = {"&": "&amp;", "<": "&lt;", ">": "&gt;"}.get(ch, ch)
+            bands.setdefault(r, []).append(
+                f'<text x="{x:.1f}" y="{y:.1f}"'
+                f' fill="{inferno(v, theme)}">{esc}</text>'
+            )
+
+    parts = []
+    for r in sorted(bands):
+        begin = r * 0.011
+        parts.append(
+            f'<g opacity="1">{"".join(bands[r])}'
+            f'<animate attributeName="opacity" from="0" to="1"'
+            f' begin="{begin:.3f}s" dur="0.45s" fill="freeze"/>'
+            f'<animateTransform attributeName="transform" type="translate"'
+            f' from="0 18" to="0 0" begin="{begin:.3f}s" dur="0.45s"'
+            f' calcMode="spline" keySplines="0.16 1 0.3 1"'
+            f' keyTimes="0;1" fill="freeze"/></g>'
+        )
+
+    return (f'<g font-size="{C_FONT}" text-anchor="middle"'
+            f' font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace">'
+            + "".join(parts) + "</g>")
+
+
 def _panel(field: list, theme: str) -> str:
     """Right-hand identity and activation panel."""
     t = THEMES[theme]
@@ -238,14 +298,24 @@ def _panel(field: list, theme: str) -> str:
     return "".join(out)
 
 
-def build_svg(field: list, theme: str) -> str:
+def build_svg(field: list, theme: str, style: str = "relief",
+              code_field: list | None = None) -> str:
     if theme not in THEMES:
         raise ValueError(f"unknown theme {theme!r}; expected 'dark' or 'light'")
+    if style not in ("relief", "code"):
+        raise ValueError(f"unknown style {style!r}; expected 'relief' or 'code'")
     t = THEMES[theme]
+
+    if style == "code":
+        grid = f"{C_COLS}×{C_ROWS} · source"
+        surface = _surface_code(code_field if code_field else field, theme)
+    else:
+        grid = f"{COLS}×{ROWS} · relief"
+        surface = _surface(field, theme)
 
     header = "".join([
         _mono_row("ACTIVATION SURFACE", 40, 38, 11.0, t["accent"]),
-        _mono_row(f"inferno · {COLS}×{ROWS} · relief", 940, 38, 9.5, t["muted"]),
+        _mono_row(f"inferno · {grid}", 930, 38, 9.5, t["muted"]),
         f'<line x1="40" y1="52" x2="1140" y2="52"'
         f' stroke="{t["border"]}" stroke-width="1"/>',
     ])
@@ -257,7 +327,7 @@ def build_svg(field: list, theme: str) -> str:
         f'<rect width="{W}" height="{H}" rx="14" fill="{t["page"]}"/>'
         f'<rect x="0.5" y="0.5" width="{W - 1}" height="{H - 1}" rx="13.5"'
         f' fill="none" stroke="{t["border"]}" stroke-width="1"/>'
-        f"{header}{_surface(field, theme)}{_panel(field, theme)}"
+        f"{header}{surface}{_panel(field, theme)}"
         f"</svg>"
     )
 
@@ -265,6 +335,8 @@ def build_svg(field: list, theme: str) -> str:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--photo", help="path to a front-facing portrait")
+    ap.add_argument("--style", choices=("relief", "code"), default="code",
+                    help="extruded blocks, or the portrait drawn in source code")
     args = ap.parse_args()
 
     if args.photo:
@@ -278,8 +350,9 @@ def main() -> int:
         img = synthetic_portrait()
 
     field = height_field(img)
+    code_field = height_field(img, C_COLS, C_ROWS)
     for theme in ("dark", "light"):
-        svg = build_svg(field, theme)
+        svg = build_svg(field, theme, args.style, code_field)
         size = len(svg.encode())
         if size > 700_000:
             print(f"{theme}.svg is {size} bytes, over the 700000 budget",
