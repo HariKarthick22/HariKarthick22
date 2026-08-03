@@ -1,0 +1,5 @@
+Pillow>=10.2.0
+numpy>=1.26.0
+fonttools>=4.47.0
+PyYAML>=6.0.1
+pytest>=8.0.0

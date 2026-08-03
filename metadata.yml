@@ -1,0 +1,31 @@
+# Repo descriptions and topics, written from the actual source of each project.
+# Topics are load-bearing: generate_repos.py derives agent role and output shape
+# from them, so changing a topic changes the roster.
+
+BME-Project:
+  description: "MediOrbit / CarePath AI — FastAPI + React medical assistant with Claude-powered chat, BioBERT medical NER, X-ray analysis, and prescription OCR over a 23-hospital Tamil Nadu database."
+  topics: [healthcare-ai, fastapi, react, biobert, named-entity-recognition, ocr, multi-agent, medical-imaging, python]
+
+aaaa:
+  description: "Sovereign — real-time multi-agent dashboard tracking autonomous agent status, confidence, win rate, and P&L over a live Firebase feed."
+  topics: [multi-agent-systems, react, typescript, firebase, realtime-dashboard, recharts, tailwindcss]
+
+predict-:
+  description: "Online adaptive prediction engine with a self-updating ensemble — reward-driven weight updates, calibrated confidence, and full prediction history in PostgreSQL."
+  topics: [online-learning, adaptive-algorithms, ensemble-methods, binary-classification, express, drizzle-orm, postgresql, typescript]
+
+Sentimental-Analysis-:
+  description: "News-headline sentiment analyzer built on DistilBERT (SST-2) with batch input, confidence scores, and CSV export."
+  topics: [nlp, sentiment-analysis, transformers, distilbert, huggingface, streamlit, text-classification, python]
+
+Diabetes-Prediction:
+  description: "Keras MLP predicting diabetes risk from 8 clinical features on the Pima Indians dataset, with a scaler-backed inference script."
+  topics: [machine-learning, deep-learning, keras, tensorflow, healthcare, binary-classification, scikit-learn, python]
+
+Digital-Marketing-Automation:
+  description: "Real-time lead scraper — extracts contact emails from batches of URLs with keyword and country filtering, exporting to CSV."
+  topics: [web-scraping, automation, selenium, beautifulsoup, streamlit, lead-generation, python]
+
+Email-Spam-Detector:
+  description: "Spam email classifier using TF-IDF features and Multinomial Naive Bayes, with live accuracy readout and model caching."
+  topics: [machine-learning, nlp, naive-bayes, tfidf, text-classification, scikit-learn, streamlit, python]

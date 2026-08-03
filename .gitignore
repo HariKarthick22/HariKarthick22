@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.DS_Store
+*.log
+
+# Local-only working files
+.claude/
+preview/
+docs/
+SETUP.md
+*.jpeg
+*.jpg
+*.png
+!preview/.gitkeep
