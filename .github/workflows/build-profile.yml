@@ -10,6 +10,12 @@ on:
 permissions:
   contents: write
 
+# Two runs pushing to main at once lose the race and fail. Queue them instead of
+# cancelling — a cancelled run leaves the assets stale until the next schedule.
+concurrency:
+  group: build-profile
+  cancel-in-progress: false
+
 jobs:
   # --------------------------------------------------------------------
   # Agent roster — repos as a model.summary() table.
@@ -47,8 +53,16 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add repos-dark.svg repos-light.svg stats-dark.svg stats-light.svg
-          git diff --staged --quiet || git commit -m "chore: refresh roster and stats"
-          git push
+          git diff --staged --quiet && echo "no changes" && exit 0
+          git commit -m "chore: refresh roster and stats"
+          # Retry against a moving remote rather than failing the whole run.
+          for i in 1 2 3; do
+            git pull --rebase --autostash origin main && git push && exit 0
+            echo "push attempt $i failed, retrying"
+            sleep 5
+          done
+          echo "could not push after 3 attempts" >&2
+          exit 1
 
   # --------------------------------------------------------------------
   # Contribution snake — travels the calendar eating contribution dots.
