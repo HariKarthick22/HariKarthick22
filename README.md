@@ -239,3 +239,5 @@ python generate_banner.py --photo me.jpg --style code    # or --style relief
 Everything else rebuilds itself nightly via `.github/workflows/build-profile.yml`.
 
 </details>
+
+<!-- profile README -->
